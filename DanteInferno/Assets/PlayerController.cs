@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+         Debug.Log("this is a test 1");
+
     }
 
     // Update is called once per frame
@@ -85,10 +87,13 @@ public class PlayerController : MonoBehaviour
 
     void OnFire(){
         animator.SetTrigger("swordAttack");
+        SwordAttack();
     }
 
     public void SwordAttack(){
         LockMovement();
+
+        Debug.Log("this is a test 5");
 
         if(spriteRenderer.flipX == true){
             swordAttack.AttackLeft();
