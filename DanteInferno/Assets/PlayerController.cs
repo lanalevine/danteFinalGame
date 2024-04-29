@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public float collisionOffset = .05f;
     public ContactFilter2D movementFilter;
     public SwordAttack swordAttack;
+    
+    public Reap reap;
 
     Vector2 movementInput;
     Rigidbody2D rb;
@@ -25,7 +27,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-         Debug.Log("this is a test 1");
+         reap = GameObject.Find("ReapHitbox").GetComponent<Reap>();
 
     }
 
@@ -36,6 +38,13 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate() {
+
+         if (Input.GetKeyDown("return"))
+         {
+             Reaper();
+         }
+
+
         if(canMove){
         if(movementInput != Vector2.zero){
             bool success = TryMove(movementInput);
@@ -90,13 +99,36 @@ public class PlayerController : MonoBehaviour
         SwordAttack();
     }
 
+    public void Reaper(){
+        animator.SetTrigger("reapAttack");
+        LockMovement();
+
+        if(reap==null){
+            Debug.Log("null");
+        }
+        else{
+
+        if(spriteRenderer.flipX == true){
+            reap.ReapLeft();
+            Debug.Log("This is def workign");
+
+        }
+        else{
+            reap.ReapRight();
+            Debug.Log("This is def workign");
+
+        }
+        }
+    }
+
+    
+
     public void SwordAttack(){
         LockMovement();
 
-        Debug.Log("this is a test 5");
-
         if(spriteRenderer.flipX == true){
             swordAttack.AttackLeft();
+
         }
         else{
             swordAttack.AttackRight();
@@ -107,6 +139,13 @@ public class PlayerController : MonoBehaviour
     public void EndSwordAttack() {
         UnlockMovement();
         swordAttack.StopAttack();
+    }
+
+    public void EndReap() {
+        Debug.Log("testie1asdf");
+        UnlockMovement();
+        reap.StopReap();
+        Debug.Log("testie");
     }
 
     public void LockMovement() {

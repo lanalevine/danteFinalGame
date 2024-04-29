@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class Ghost : MonoBehaviour
 {
@@ -24,23 +25,33 @@ public class Ghost : MonoBehaviour
         }
     }
 
+    public bool Reaped {
+        set {
+            reaped = value;
+            if(reaped){
+                Reaping();
+                Debug.Log("test 1");
+            }
+            else{
+                Debug.Log("test 2");
+            }
+        }
+        get {
+            return reaped;
+        }
+    }
+
     public float health = 1;
+    public bool reaped = false;
 
     public void Defeated(){
         animator.SetTrigger("Defeated");
     }
-      private void OnTriggerEnter2D(Collider2D other){
-        if(other.tag == "Hitbox"){
-            
-            Debug.Log("this is a test 3");
-        
-            Health-=1;
 
-        }
-
-         Debug.Log("this is a test 4");
-
+    public void Reaping(){
+        animator.SetTrigger("Reaping");
     }
+
 
     public void RemoveEnemy() {
         Destroy(gameObject);
